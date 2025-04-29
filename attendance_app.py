@@ -6,6 +6,7 @@ import json
 from os.path import join
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import pytz
 
 # Authenticate
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -41,7 +42,8 @@ with cols[1]:
 with cols[2]:
     rank = st.selectbox('Select the number (or letter) on your card:',options=rank_options)
 
-now = datetime.datetime.now().strftime("%Y-%m-%d %H%M%S")
+eastern_tz = pytz.timezone("US/Eastern")
+now = datetime.now(eastern_tz).strftime("%Y-%m-%d %H:%M:%S")
 
 try:
     student_name = st.secrets["students"].get(student_id, "Unknown ID")
