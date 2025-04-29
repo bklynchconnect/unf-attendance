@@ -43,7 +43,7 @@ with cols[2]:
     rank = st.selectbox('Select the number (or letter) on your card:',options=rank_options)
 
 eastern_tz = pytz.timezone("US/Eastern")
-now = datetime.now(eastern_tz).strftime("%Y-%m-%d %H:%M:%S")
+
 
 try:
     student_name = st.secrets["students"].get(student_id, "Unknown ID")
@@ -66,6 +66,7 @@ except:
 
 
 if button:
+    now = datetime.datetime.now(eastern_tz).strftime("%Y-%m-%d %H:%M:%S")
     sheet.append_row([
         now,
         student_name,
