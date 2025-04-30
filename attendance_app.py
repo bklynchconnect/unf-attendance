@@ -45,24 +45,21 @@ with cols[2]:
 
 eastern_tz = pytz.timezone("US/Eastern")
 
+match = re.search(r"\b\d{7}\b", student_id).group()
+student_name = st.secrets["students"].get(student_id, "Unknown ID")
 
-try:
-    match = re.search(r"\b\d{7}\b", student_id).group()
-    student_name = st.secrets["students"].get(student_id, "Unknown ID")
-    
+if rank in 'JQKA':
+    card_image_name = f"{rank_image_map[rank]}_of_{suit_image_map[suit]}2.png"    
+else:
+    card_image_name = f"{rank_image_map[rank]}_of_{suit_image_map[suit]}.png"
+st.image(join('card_images',card_image_name),width=100)
 
-    if rank in 'JQKA':
-        card_image_name = f"{rank_image_map[rank]}_of_{suit_image_map[suit]}2.png"    
-    else:
-        card_image_name = f"{rank_image_map[rank]}_of_{suit_image_map[suit]}.png"
-    st.image(join('card_images',card_image_name),width=100)
-
+if student_name != "Unknown ID":
     container = st.container(border=True)
     container.markdown(f'Student found :heavy_check_mark:')
     container.write(f'{student_name}')
     button = st.button('Submit')
-
-except:
+else:
     container = st.container(border=True)
     container.markdown(f'Student not found :x:')
     button = st.button('Submit',disabled=True)
