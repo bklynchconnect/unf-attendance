@@ -45,7 +45,11 @@ with cols[2]:
 
 eastern_tz = pytz.timezone("US/Eastern")
 
-match = re.search(r"\b\d{7}\b", student_id).group()
+match = re.search(r"\b\d{7}\b", student_id)
+if match:
+    student_id = match.group()
+else:
+    student_id = ''
 student_name = st.secrets["students"].get(student_id, "Unknown ID")
 
 if rank in 'JQKA':
