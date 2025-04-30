@@ -22,9 +22,10 @@ sheet = client.open("unfc-python-spring-attendance").sheet1  # or by title
 st.set_page_config(page_title='UNFC Attendance (CPSC-610-5)',page_icon=':raised_hand:',layout='wide')
 
 st.markdown('''
-        1. Select your name in the list.
+        1. Enter your student ID (can accept 7-digit number format, with # in front, and/or with nf at end).
         2. Select the card given to you.
-        3. Click submit.
+        3. Make sure your name is correct.
+        4. Click submit.
             '''
             )
 
