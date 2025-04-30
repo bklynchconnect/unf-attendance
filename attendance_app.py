@@ -7,6 +7,7 @@ from os.path import join
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pytz
+import re
 
 # Authenticate
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -46,7 +47,9 @@ eastern_tz = pytz.timezone("US/Eastern")
 
 
 try:
+    match = re.search(r"\b\d{7}\b", student_id).group()
     student_name = st.secrets["students"].get(student_id, "Unknown ID")
+    
 
     if rank in 'JQKA':
         card_image_name = f"{rank_image_map[rank]}_of_{suit_image_map[suit]}2.png"    
