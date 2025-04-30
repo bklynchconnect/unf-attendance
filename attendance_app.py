@@ -45,7 +45,7 @@ with cols[2]:
 
 eastern_tz = pytz.timezone("US/Eastern")
 
-match = re.search(r"\b\d{7}\b", student_id)
+match = re.search(r"\d{7}", student_id)
 if match:
     student_id = match.group()
 else:
