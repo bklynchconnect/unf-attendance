@@ -22,7 +22,7 @@ sheet = client.open("unfc-python-spring-attendance").sheet1  # or by title
 st.set_page_config(page_title='UNFC Attendance (CPSC-610-5)',page_icon=':raised_hand:',layout='wide')
 
 st.markdown('''
-        1. Enter your student ID. It accepts 7-digit number format, with # in front, and/or with nf at end (e.g., 0001234, #0001234, 0001234nf and #0001234nf all should work).
+        1. Enter your student ID in the form of nfXXXXXXX, or you can use your email handle (e.g., brian.lynch -- don't include @unfc.ca).
         2. Select the card given to you.
         3. Make sure your name is correct.
         4. Click submit.
@@ -38,7 +38,7 @@ suit_map = dict(zip(suit_options,['d','c','h','s']))
 
 cols = st.columns(3)
 with cols[0]:
-    student_id = st.text_input('Enter your student ID (7 digit number):')
+    student_id = st.text_input('Enter your student ID or email handle')
 with cols[1]:
     suit = st.selectbox('Select the suit on your card:',options=suit_options)
 with cols[2]:
@@ -46,12 +46,11 @@ with cols[2]:
 
 eastern_tz = pytz.timezone("US/Eastern")
 
-match = re.search(r"\d{7}", student_id)
-if match:
-    student_id = match.group()
-else:
-    student_id = ''
-student_name = st.secrets["students"].get(student_id, "Unknown ID")
+student_name = st.secrets["students_by_id"].get(student_id, "Unknown ID")
+if student_name == "Unknown ID":
+    student_name = st.secrets["students_by_username"].get(student_id.lower(), "Unknown ID")
+if student_name == "Unknown ID":
+    student_name = st.secrets["students_by_email"].get(student_id, "Unknown ID")
 
 if rank in 'JQKA':
     card_image_name = f"{rank_image_map[rank]}_of_{suit_image_map[suit]}2.png"    
